@@ -9,7 +9,7 @@ parentdir = os.path.dirname(os.path.dirname(currentdir))
 os.sys.path.insert(0,parentdir)
 
 import gym
-from pybullet_envs.bullet.kuka_diverse_object_gym_env import KukaDiverseObjectEnv
+from robot_env import RobotEnv
 from gym import spaces
 
 
@@ -32,12 +32,12 @@ class ContinuousDownwardBiasPolicy(object):
     dx, dy, dz, da, close = self._action_space.sample()
     if np.random.random() < self._height_hack_prob:
       dz = -1
-    return [dx, dy, dz, da, 0]
+    return [dx, dy, dz, da * 3, 0]
 
 
 def main():
     
-    env = KukaDiverseObjectEnv(renders=True, isDiscrete=False)
+    env = RobotEnv(renders=True, isDiscrete=False, removeHeightHack=True)
     policy = ContinuousDownwardBiasPolicy()
 
     while True:
@@ -51,7 +51,7 @@ def main():
             act = policy.sample_action(obs, .1)
             print("Action")
             print(act)
-            obs, rew, done, _ = env.step([0, 0, 0, 0, 0])
+            obs, rew, done, _ = env.step(act)
             episode_rew += rew
         print("Episode reward", episode_rew)
 

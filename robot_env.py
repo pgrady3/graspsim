@@ -4,7 +4,7 @@ import os
 from gym import spaces
 import time
 import pybullet as p
-from . import kuka
+from pybullet_envs.bullet import kuka
 import numpy as np
 import pybullet_data
 import pdb
@@ -13,7 +13,7 @@ import glob
 from pkg_resources import parse_version
 import gym
 
-class KukaDiverseObjectEnv(KukaGymEnv):
+class RobotEnv(KukaGymEnv):
   """Class for Kuka environment with diverse objects.
 
   In each episode some objects are chosen from a set of 1000 diverse objects.
@@ -216,7 +216,7 @@ class KukaDiverseObjectEnv(KukaGymEnv):
       dy = dv * action[1]
       if self._removeHeightHack:
         dz = dv * action[2]
-        da = 0.25 * action[3]
+        da = dv * action[3]
       else:
         dz = -dv
         da = 0.25 * action[2]
