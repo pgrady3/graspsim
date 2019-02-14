@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+
+
+#OpenAI baselines
+baselines/
+examples/kuka_model.pkl
